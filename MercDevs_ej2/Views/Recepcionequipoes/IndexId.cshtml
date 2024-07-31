@@ -1,0 +1,108 @@
+﻿@model IEnumerable<MercDevs_ej2.Models.Recepcionequipo>
+
+@{
+    ViewData["Title"] = "Recepciones del Cliente";
+    int clienteId = ViewBag.IdCliente ?? 0;
+    var clienteNombre = ViewBag.ClienteNombre as string;
+}
+
+<h1>Recepción de Equipo - @clienteNombre</h1>
+<body style="align-content:center">
+    <p>
+        @if (clienteId > 0)
+        {
+            @Html.ActionLink("Crear Recepción", "Create", "Recepcionequipoes", new { idCliente = clienteId }, new { @class = "btn btn-success" })
+        }
+        else
+        {
+            <a class="btn btn-success disabled">Crear Recepción</a>
+        }
+    </p>
+    <table class="table">
+        <thead td style="white-space: nowrap;">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Fecha)</th>
+                <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                <th>@Html.DisplayNameFor(model => model.TipoPc)</th>
+                <th>@Html.DisplayNameFor(model => model.MarcaPc)</th>
+                <th>@Html.DisplayNameFor(model => model.ModeloPc)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody style="text-align">
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="white-space: nowrap;">@Html.DisplayFor(modelItem => item.Fecha)</td>
+                        <td>
+                            @{
+                                string estado = "";
+                                switch (item.Estado)
+                                {
+                                    case "1":
+                                        estado = "Activo";
+                                        break;
+                                    case "0":
+                                        estado = "Inactivo";
+                                        break;
+                                }
+                                @estado
+                            }
+                        </td>
+                        <td>
+                            @{
+                                string tipopc = "";
+                                switch (item.TipoPc)
+                                {
+                                    case 0:
+                                        tipopc = "Pc Torre";
+                                        break;
+                                    case 1:
+                                        tipopc = "Notebook";
+                                        break;
+                                    case 2:
+                                        tipopc = "All in one";
+                                        break;
+                                }
+                                @tipopc
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.MarcaPc)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ModeloPc)</td>
+                        <td>
+                            <div class="d-flex justify-content-around" style="gap:10px">
+                                <a asp-action="Edit" asp-route-id="@item.Id">
+                                    <button type="button" class="btn btn-primary" style="width:100%">Editar</button>
+                                </a>
+
+                                <a asp-action="DetailsId" asp-route-id="@item.Id">
+                                    <button type="button" class="btn btn-info" style="width:100%">Detalle</button>
+                                </a>
+
+                                <a asp-action="Delete" asp-route-id="@item.Id">
+                                    <button type="button" class="btn btn-danger" style="width:100%">Borrar</button>
+                                </a>
+
+                                <a asp-controller="Datosfichatecnicas" asp-action="VerDatosFichaTecnicaPorRecepcion" asp-route-id="@item.Id">
+                                    <button type="button" class="btn btn-info" style="width:100%">Datos Ficha</button>
+                                </a>
+
+                                <form method="post" asp-action="Finalizar" asp-route-id="@item?.Id">
+                                    <button type="submit" class="btn btn-warning">Finalizar Recepción</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center">No hay recepciones para mostrar.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>

@@ -1,0 +1,131 @@
+﻿@model IEnumerable<MercDevs_ej2.Models.Recepcionequipo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index Recepcion De equipos</h1>
+<body style="align-content:center">
+<p>
+        <a asp-action="Create"><button type="button" class="btn btn-success ">Crear Recepcion</button></a>
+</p>
+<table class="table">
+    <thead td style="white-space: nowrap;">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoPc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MarcaPc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModeloPc)
+            </th>
+            <th>
+               @Html.DisplayNameFor(model => model.Grafico)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdClienteNavigation.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdClienteNavigation.Apellido)
+            </th>
+            <th>
+                Servicio
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+        </tr>
+    </thead>
+    <tbody style="text-align">
+@foreach (var item in Model) {
+        <tr>
+            <td style="white-space: nowrap;">
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td style="white-space: nowrap;">
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                  @{
+                        string tipopc = "";
+                        switch (item.TipoPc)
+                        {
+                            case 0:
+                                tipopc = "Pc Torre";
+                                break;
+                            case 1:
+                                tipopc = "Notebook";
+                                break;
+                            case 2:
+                                tipopc = "All in one";
+                                break;
+                        }
+                        @tipopc
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MarcaPc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeloPc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grafico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdClienteNavigation.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdClienteNavigation.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdServicioNavigation.Nombre)
+            </td>
+            <td>
+                @{
+                        string estado = "";
+                        switch (item.Estado)
+                        {
+                            case "1":
+                                    estado = "Activo";
+                                break;
+                            case "0":
+                                    estado = "Inactivo";
+                                break;
+                        }
+                        @estado
+                    }
+            </td>
+            <td>
+
+                <div class="d-flex justify-content-around" >
+                    <button class="btn btn-info">
+                    @Html.ActionLink("Ficha Técnica", "Index", "Datosfichatecnicas", new { id = item.Id }, null)
+                    </button>
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-primary" style="width:100%">Editar</button></a>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        <button type="button" class="btn btn-info" style="width:100%">Detalles</button></a> 
+
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                            <button type="button" class="btn btn-danger" style="width:100%">Borrar</button>
+                    </a>
+                            <form method="post" asp-action="Finalizar" asp-route-id="@item?.Id">
+                                <button type="submit" class="btn btn-warning">Finalizar Recepción</button>
+                            </form>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>

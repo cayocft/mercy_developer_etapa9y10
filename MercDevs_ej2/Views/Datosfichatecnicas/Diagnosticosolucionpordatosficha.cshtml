@@ -1,0 +1,40 @@
+﻿@model MercDevs_ej2.Models.Datosfichatecnica
+
+@{
+    ViewData["Title"] = "Diagnóstico y Solución";
+}
+
+<h1>Diagnóstico y Solución</h1>
+
+<p>
+    <a asp-controller="Diagnosticosolucions" asp-action="CreateDiagnostico" asp-route-datosFichaTecnicaId="@Model.IdDatosFichaTecnica">
+        <button type="button" class="btn btn-success">Crear Diagnóstico y Solución</button>
+    </a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Descripción Diagnóstico</th>
+            <th>Descripción Solución</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Diagnosticosolucions)
+        {
+            <tr>
+                <td>@item.DescripcionDiagnostico</td>
+                <td>@item.DescripcionSolucion</td>
+                <td>
+                    <a asp-controller="Diagnosticosolucions" asp-action="Edit" asp-route-id="@item.IdDiagnosticoSolucion">
+                        <button type="button" class="btn btn-outline-primary">Editar</button>
+                    </a>
+                    <a asp-controller="Diagnosticosolucions" asp-action="Delete" asp-route-id="@item.IdDiagnosticoSolucion">
+                        <button type="button" class="btn btn-outline-danger">Borrar</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
